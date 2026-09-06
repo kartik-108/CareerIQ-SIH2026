@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="../assets/icons/favicon.svg" type="image/svg+xml">
+<title>AI Career Lab — CareerIQ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles/variables.css">
+<link rel="stylesheet" href="../styles/reset.css">
+<link rel="stylesheet" href="../styles/global.css">
+<link rel="stylesheet" href="../styles/layout.css">
+<link rel="stylesheet" href="../styles/components.css">
+<link rel="stylesheet" href="../styles/animations.css">
+<link rel="stylesheet" href="../styles/themes.css">
+<link rel="stylesheet" href="../styles/responsive.css">
+</head>
+<body>
+<div class="app-shell" data-sidebar-collapsed="false">
+  <div data-mount="sidebar"></div>
+
+  <div class="main-col">
+    <div data-mount="topbar"></div>
+
+    <main class="page-content" id="main">
+      <div style="margin-bottom: var(--space-6);">
+        <h2>AI Career Lab</h2>
+        <p>Skill gaps, your roadmap, and your Career DNA — all in one place.</p>
+      </div>
+
+      <div class="tabs" role="tablist">
+        <button class="tab-btn is-active" id="tab-skill-gap" data-tab="skill-gap" role="tab" aria-controls="panel-skill-gap" aria-selected="true">Skill Gap Analyzer</button>
+        <button class="tab-btn" id="tab-roadmap" data-tab="roadmap" role="tab" aria-controls="panel-roadmap" aria-selected="false" tabindex="-1">AI Career Roadmap</button>
+        <button class="tab-btn" id="tab-career-dna" data-tab="career-dna" role="tab" aria-controls="panel-career-dna" aria-selected="false" tabindex="-1">Career DNA</button>
+      </div>
+
+      <!-- TAB 1: Skill Gap -->
+      <section class="tab-panel is-active" id="panel-skill-gap" role="tabpanel" aria-labelledby="tab-skill-gap" tabindex="0">
+        <div class="card" style="margin-bottom: var(--space-6);">
+          <div style="display:flex; gap: var(--space-4); align-items:flex-end; flex-wrap:wrap;">
+            <div class="field" style="margin:0; min-width:240px;">
+              <label for="target-role-select">Target role</label>
+              <select id="target-role-select"></select>
+            </div>
+            <button class="btn btn-primary" id="run-skillgap-btn">
+              <i data-lucide="scan-search" width="16" height="16"></i> Re-run analysis
+            </button>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card" style="display:flex; flex-direction:column; align-items:center; justify-content:center;">
+            <div id="match-score-ring"></div>
+            <p style="margin-top: var(--space-3);">Industry match score for <strong id="match-role-label" style="color:var(--text-primary);"></strong></p>
+          </div>
+          <div class="card">
+            <div class="card-header"><h4>Skill radar</h4></div>
+            <div id="skill-radar"></div>
+          </div>
+        </div>
+
+        <div class="grid-2" style="margin-top: var(--space-6);">
+          <div class="card">
+            <div class="card-header"><h4>Missing skills</h4></div>
+            <div style="display:flex; flex-wrap:wrap; gap: var(--space-2);" id="missing-skills-list"></div>
+          </div>
+          <div class="card">
+            <div class="card-header"><h4>Priority skills</h4></div>
+            <div id="priority-skills-list" style="display:flex; flex-direction:column; gap: var(--space-3);"></div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top: var(--space-6);">
+          <div class="card-header"><h4>Learning suggestions</h4></div>
+          <div class="grid-3" id="learning-suggestions-grid"></div>
+        </div>
+      </section>
+
+      <!-- TAB 2: Roadmap -->
+      <section class="tab-panel" id="panel-roadmap" role="tabpanel" aria-labelledby="tab-roadmap" tabindex="0" hidden>
+        <div class="card" style="margin-bottom: var(--space-6);">
+          <div class="card-header">
+            <h4>Overall progress</h4>
+            <span class="badge badge-emerald" id="roadmap-progress-label"></span>
+          </div>
+          <div class="progress-track"><div class="progress-fill" id="roadmap-progress-fill"></div></div>
+        </div>
+
+        <div class="card" style="margin-bottom: var(--space-6);">
+          <div class="card-header"><h4>Learning timeline</h4></div>
+          <div id="roadmap-timeline-chart"></div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-header"><h4>Weekly goals</h4></div>
+            <ul id="weekly-goals-list" style="display:flex; flex-direction:column; gap: var(--space-3);"></ul>
+          </div>
+          <div class="card">
+            <div class="card-header"><h4>Monthly goals</h4></div>
+            <ul id="monthly-goals-list" style="display:flex; flex-direction:column; gap: var(--space-4);"></ul>
+          </div>
+        </div>
+
+        <div class="grid-3" style="margin-top: var(--space-6);">
+          <div class="card">
+            <div class="card-header"><h4>Quarter milestones</h4></div>
+            <div id="milestones-list"></div>
+          </div>
+          <div class="card">
+            <div class="card-header"><h4>Projects</h4></div>
+            <div id="roadmap-projects-list"></div>
+          </div>
+          <div class="card">
+            <div class="card-header"><h4>Certifications</h4></div>
+            <div id="certifications-list"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 3: Career DNA -->
+      <section class="tab-panel" id="panel-career-dna" role="tabpanel" aria-labelledby="tab-career-dna" tabindex="0" hidden>
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-header"><h4>Trait scores</h4></div>
+            <div id="dna-traits-list" style="display:flex; flex-direction:column; gap: var(--space-5);"></div>
+          </div>
+          <div class="card" style="display:flex; align-items:center; justify-content:center;">
+            <div id="dna-radar"></div>
+          </div>
+        </div>
+
+        <div class="grid-3" style="margin-top: var(--space-6);">
+          <div class="card">
+            <div class="card-header"><h4>Learning style</h4></div>
+            <div style="display:flex; align-items:center; gap: var(--space-3);">
+              <div class="card-icon"><i data-lucide="brain"></i></div>
+              <span style="font-weight:600;" id="learning-style-value">—</span>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header"><h4>Technical strength</h4></div>
+            <div style="display:flex; flex-wrap:wrap; gap: var(--space-2);" id="technical-strength-list"></div>
+          </div>
+          <div class="card">
+            <div class="card-header"><h4>Career personality</h4></div>
+            <p id="career-personality-value" style="color:var(--text-primary); font-weight:600;">—</p>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top: var(--space-6);">
+          <div class="card-header"><h4>Growth opportunities</h4></div>
+          <ul id="growth-opportunities-list" style="display:flex; flex-direction:column; gap: var(--space-2);"></ul>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>
+
+<div data-mount="bottom-nav"></div>
+
+<script src="https://unpkg.com/lucide@latest"></script>
+<script type="module" src="../scripts/app.js"></script>
+<script type="module" src="../scripts/navigation-init.js"></script>
+<script type="module" src="../scripts/career-lab.js"></script>
+</body>
+</html>

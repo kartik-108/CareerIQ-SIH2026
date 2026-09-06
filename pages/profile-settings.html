@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="../assets/icons/favicon.svg" type="image/svg+xml">
+<title>Profile & Settings — CareerIQ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles/variables.css">
+<link rel="stylesheet" href="../styles/reset.css">
+<link rel="stylesheet" href="../styles/global.css">
+<link rel="stylesheet" href="../styles/layout.css">
+<link rel="stylesheet" href="../styles/components.css">
+<link rel="stylesheet" href="../styles/animations.css">
+<link rel="stylesheet" href="../styles/themes.css">
+<link rel="stylesheet" href="../styles/responsive.css">
+</head>
+<body>
+<div class="app-shell" data-sidebar-collapsed="false">
+  <div data-mount="sidebar"></div>
+
+  <div class="main-col">
+    <div data-mount="topbar"></div>
+
+    <main class="page-content" id="main">
+      <div style="margin-bottom: var(--space-8);">
+        <h2>Profile & Settings</h2>
+        <p>Manage your profile, preferences, and privacy.</p>
+      </div>
+
+      <div class="grid-2">
+        <!-- Profile card -->
+        <div class="card" style="grid-column: span 2;">
+          <div style="display:flex; align-items:center; gap: var(--space-6); flex-wrap:wrap;">
+            <div class="avatar" style="width:88px; height:88px; font-size: var(--text-2xl);" id="profile-avatar">A</div>
+            <div style="flex:1;">
+              <h3 id="profile-name">—</h3>
+              <p id="profile-role">—</p>
+              <div style="display:flex; gap: var(--space-2); margin-top: var(--space-2);">
+                <button class="btn btn-secondary btn-sm profile-photo-change">Change photo</button>
+                <button class="btn btn-ghost btn-sm profile-settings-edit">Edit profile</button>
+              </div>
+            </div>
+            <div style="display:flex; gap: var(--space-8);">
+              <div style="text-align:center;">
+                <div class="stat-value" id="profile-xp">—</div>
+                <div class="stat-label">XP</div>
+              </div>
+              <div style="text-align:center;">
+                <div class="stat-value" id="profile-level">—</div>
+                <div class="stat-label">Level</div>
+              </div>
+              <div style="text-align:center;">
+                <div class="stat-value" id="profile-streak">—</div>
+                <div class="stat-label">Day streak</div>
+              </div>
+            </div>
+          </div>
+          <div style="margin-top: var(--space-6);">
+            <div style="display:flex; justify-content:space-between; font-size: var(--text-xs); margin-bottom: var(--space-2);">
+              <span>Progress to next level</span>
+              <span id="xp-progress-label">—</span>
+            </div>
+            <div class="progress-track"><div class="progress-fill" id="xp-progress-fill"></div></div>
+          </div>
+        </div>
+
+        <!-- Achievements -->
+        <div class="card">
+          <div class="card-header"><h4>Achievements & badges</h4></div>
+          <div class="grid-2" id="badges-grid" style="gap: var(--space-3);"></div>
+        </div>
+
+        <!-- Preferences -->
+        <div class="card">
+          <div class="card-header"><h4>Preferences</h4></div>
+
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: var(--space-5);">
+            <div>
+              <div style="font-weight:500; font-size: var(--text-sm);">Theme</div>
+              <div class="text-tertiary" style="font-size: var(--text-xs);">Switch between dark and light mode</div>
+            </div>
+            <div class="segmented">
+              <button data-theme-select="dark">Dark</button>
+              <button data-theme-select="light">Light</button>
+            </div>
+          </div>
+
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: var(--space-5);">
+            <div>
+              <div style="font-weight:500; font-size: var(--text-sm);">Email notifications</div>
+              <div class="text-tertiary" style="font-size: var(--text-xs);">Roadmap reminders, interview tips</div>
+            </div>
+            <label class="switch" for="email-notifications"><span class="visually-hidden sr-only">Email notifications</span><input id="email-notifications" type="checkbox" checked><span class="switch-track"></span></label>
+          </div>
+
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div>
+              <div style="font-weight:500; font-size: var(--text-sm);">Push notifications</div>
+              <div class="text-tertiary" style="font-size: var(--text-xs);">Streak reminders, new job matches</div>
+            </div>
+            <label class="switch" for="push-notifications"><span class="visually-hidden sr-only">Push notifications</span><input id="push-notifications" type="checkbox"><span class="switch-track"></span></label>
+          </div>
+        </div>
+
+        <!-- Privacy -->
+        <div class="card">
+          <div class="card-header"><h4>Privacy</h4></div>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: var(--space-5);">
+            <div>
+              <div style="font-weight:500; font-size: var(--text-sm);">Profile visibility</div>
+              <div class="text-tertiary" style="font-size: var(--text-xs);">Show your profile to placement officers</div>
+            </div>
+            <label class="switch" for="profile-visibility"><span class="visually-hidden sr-only">Profile visibility</span><input id="profile-visibility" type="checkbox" checked><span class="switch-track"></span></label>
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: var(--space-6);">
+            <div>
+              <div style="font-weight:500; font-size: var(--text-sm);">Interview video processing</div>
+              <div class="text-tertiary" style="font-size: var(--text-xs);">Process live locally, never upload video</div>
+            </div>
+            <label class="switch" for="interview-video-processing"><span class="visually-hidden sr-only">Interview video processing</span><input id="interview-video-processing" type="checkbox" checked disabled><span class="switch-track"></span></label>
+          </div>
+          <button class="btn btn-secondary btn-block" style="margin-bottom: var(--space-3);">Download my data</button>
+          <button class="btn btn-ghost btn-block" data-logout style="color: var(--rose);">
+            <i data-lucide="log-out" width="16" height="16"></i> Log out
+          </button>
+        </div>
+
+        <!-- Theme preview -->
+        <div class="card" style="grid-column: span 2;">
+          <div class="card-header"><h4>Theme preview</h4></div>
+          <div class="grid-3">
+            <div class="card" style="background: var(--bg-elevated);">
+              <div class="card-icon"><i data-lucide="file-check-2"></i></div>
+              <div class="stat-value">78%</div>
+              <div class="stat-label">Resume Score</div>
+            </div>
+            <div class="card" style="background: var(--bg-elevated);">
+              <div class="progress-track"><div class="progress-fill" style="width:64%"></div></div>
+              <p style="margin-top: var(--space-3); font-size: var(--text-xs);">Skill Match: 64%</p>
+            </div>
+            <div class="card" style="background: var(--bg-elevated); display:flex; gap: var(--space-2);">
+              <span class="badge badge-blue">React</span>
+              <span class="badge badge-emerald">JavaScript</span>
+              <span class="badge badge-rose">TypeScript</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<div data-mount="bottom-nav"></div>
+
+<script src="https://unpkg.com/lucide@latest"></script>
+<script type="module" src="../scripts/app.js"></script>
+<script type="module" src="../scripts/navigation-init.js"></script>
+<script type="module" src="../scripts/profile-settings.js"></script>
+</body>
+</html>
