@@ -1,0 +1,29 @@
+/* ==========================================================
+   CareerIQ — Theme-specific overrides
+   Most theming lives in variables.css as custom properties;
+   this file holds the few things that need theme-conditional
+   *rules* rather than just different variable values.
+   ========================================================== */
+
+[data-theme='light'] .ring-track { stroke: rgba(15,23,42,0.06); }
+
+[data-theme='light'] .auth-visual {
+  background: linear-gradient(180deg, #EEF1FC 0%, #F6F7FB 100%);
+}
+
+[data-theme='dark'] .logo-mark,
+:root .logo-mark {
+  box-shadow: 0 0 24px rgba(91,124,250,0.35);
+}
+
+/* Theme toggle icon crossfade */
+.theme-toggle .icon-sun,
+.theme-toggle .icon-moon {
+  position: absolute;
+  transition: opacity var(--dur-base) var(--ease-out), transform var(--dur-base) var(--ease-out);
+}
+[data-theme='dark'] .theme-toggle .icon-sun { opacity: 0; transform: rotate(-90deg) scale(0.5); }
+[data-theme='dark'] .theme-toggle .icon-moon { opacity: 1; transform: rotate(0) scale(1); }
+[data-theme='light'] .theme-toggle .icon-moon { opacity: 0; transform: rotate(90deg) scale(0.5); }
+[data-theme='light'] .theme-toggle .icon-sun { opacity: 1; transform: rotate(0) scale(1); }
+.theme-toggle { position: relative; }

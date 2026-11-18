@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="../assets/icons/favicon.svg" type="image/svg+xml">
+<title>Dashboard — CareerIQ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles/variables.css">
+<link rel="stylesheet" href="../styles/reset.css">
+<link rel="stylesheet" href="../styles/global.css">
+<link rel="stylesheet" href="../styles/layout.css">
+<link rel="stylesheet" href="../styles/components.css">
+<link rel="stylesheet" href="../styles/animations.css">
+<link rel="stylesheet" href="../styles/themes.css">
+<link rel="stylesheet" href="../styles/responsive.css">
+</head>
+<body>
+<div class="app-shell" data-sidebar-collapsed="false">
+  <div data-mount="sidebar"></div>
+
+  <div class="main-col">
+    <div data-mount="topbar"></div>
+
+    <main class="page-content" id="main">
+      <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom: var(--space-8); flex-wrap:wrap; gap:var(--space-4);">
+        <div>
+          <h2 id="greeting-text">Good to see you</h2>
+          <p>Here's where your career readiness stands today.</p>
+        </div>
+        <div class="badge badge-amber">
+          <i data-lucide="flame" width="14" height="14"></i>
+          <span id="streak-text">— day streak</span>
+        </div>
+      </div>
+
+      <!-- Widgets -->
+      <div class="grid-4" id="widgets-grid">
+        <div class="card skeleton" style="height:140px;"></div>
+        <div class="card skeleton" style="height:140px;"></div>
+        <div class="card skeleton" style="height:140px;"></div>
+        <div class="card skeleton" style="height:140px;"></div>
+      </div>
+
+      <!-- Quick actions -->
+      <div class="card" style="margin-top: var(--space-6);">
+        <div class="card-header"><h4>Quick actions</h4></div>
+        <div class="grid-4" id="quick-actions-grid"></div>
+      </div>
+
+      <!-- Charts row -->
+      <div class="grid-2" style="margin-top: var(--space-6);">
+        <div class="card">
+          <div class="card-header">
+            <h4>Weekly progress</h4>
+            <span class="badge badge-blue">This week</span>
+          </div>
+          <div id="weekly-chart"></div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <h4>Skill growth</h4>
+            <span class="badge badge-purple">6 weeks</span>
+          </div>
+          <div id="skill-growth-chart"></div>
+        </div>
+      </div>
+
+      <div class="grid-2" style="margin-top: var(--space-6);">
+        <div class="card">
+          <div class="card-header"><h4>Resume score timeline</h4></div>
+          <div id="resume-timeline-chart"></div>
+        </div>
+        <div class="card">
+          <div class="card-header"><h4>Interview performance by type</h4></div>
+          <div id="interview-perf-chart"></div>
+        </div>
+      </div>
+
+      <!-- Upcoming tasks -->
+      <div class="card" style="margin-top: var(--space-6);">
+        <div class="card-header"><h4>Upcoming tasks</h4></div>
+        <ul id="tasks-list" style="display:flex; flex-direction:column; gap: var(--space-3);"></ul>
+      </div>
+    </main>
+  </div>
+</div>
+
+<div data-mount="bottom-nav"></div>
+
+<script src="https://unpkg.com/lucide@latest"></script>
+<script src="../runtime-config.js"></script>
+<script type="module" src="../scripts/app.js"></script>
+<script type="module" src="../scripts/navigation-init.js"></script>
+<script type="module" src="../scripts/dashboard.js"></script>
+</body>
+</html>

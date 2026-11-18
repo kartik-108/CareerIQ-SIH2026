@@ -1,0 +1,32 @@
+node_modules/
+.env
+.env.*
+!.env.example
+dist/
+build/
+coverage/
+*.log
+.DS_Store
+Thumbs.db
+
+careerx-backend/uploads/*
+!careerx-backend/uploads/.gitkeep
+@"
+node_modules/
+.env
+.env.*
+!.env.example
+!.env.staging.example
+
+.DS_Store
+Thumbs.db
+coverage/
+dist/
+build/
+uploads/
+logs/
+*.log
+"@ | Set-Content .gitignore
+careerx-backend/knowledge-base/rag/Advanced RAG.pdf
+
+careerx-backend/knowledge-base/rag/Building AI Agents With LLMs RAG and Knowledge Graphs.pdf

@@ -1,0 +1,256 @@
+/* ==========================================================
+   CareerIQ — Layout
+   ========================================================== */
+
+/* ---------- App shell (used on all authenticated pages) ---------- */
+.app-shell {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  min-height: 100vh;
+}
+
+.app-shell[data-sidebar-collapsed='true'] {
+  grid-template-columns: 88px 1fr;
+}
+
+/* ---------- Sidebar ---------- */
+.sidebar {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  z-index: var(--z-sidebar);
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border-right: 1px solid var(--glass-border);
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-6) var(--space-4);
+  gap: var(--space-8);
+  transition: width var(--dur-base) var(--ease-out);
+}
+
+.sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding-inline: var(--space-2);
+}
+
+.sidebar-brand .logo-mark {
+  width: 36px; height: 36px;
+  border-radius: var(--radius-sm);
+  background: var(--gradient-ai);
+  flex-shrink: 0;
+}
+
+.sidebar-brand span {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--text-md);
+  white-space: nowrap;
+}
+
+.app-shell[data-sidebar-collapsed='true'] .sidebar-brand span,
+.app-shell[data-sidebar-collapsed='true'] .nav-label,
+.app-shell[data-sidebar-collapsed='true'] .sidebar-footer-text {
+  display: none;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  flex: 1;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-3);
+  border-radius: var(--radius-md);
+  color: var(--text-secondary);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.nav-item:hover {
+  background: var(--surface-hover);
+  color: var(--text-primary);
+}
+
+.nav-item.is-active {
+  background: var(--gradient-ai-soft);
+  color: var(--text-primary);
+  position: relative;
+}
+
+.nav-item.is-active::before {
+  content: '';
+  position: absolute;
+  left: -16px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 20px;
+  border-radius: var(--radius-full);
+  background: var(--gradient-ai);
+}
+
+.nav-item svg { flex-shrink: 0; width: 20px; height: 20px; }
+
+.sidebar-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px; height: 32px;
+  border-radius: var(--radius-sm);
+  color: var(--text-tertiary);
+  align-self: flex-end;
+}
+.sidebar-toggle:hover { background: var(--surface-hover); color: var(--text-primary); }
+
+/* ---------- Main column ---------- */
+.main-col {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ---------- Topbar ---------- */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-nav);
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-4) var(--space-8);
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.topbar-search {
+  flex: 1;
+  max-width: 420px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  background: var(--surface-input);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-full);
+  color: var(--text-tertiary);
+}
+.topbar-search input {
+  flex: 1;
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  font-size: var(--text-sm);
+}
+.topbar-search input::placeholder { color: var(--text-tertiary); }
+
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-left: auto;
+}
+
+.page-content {
+  flex: 1;
+  padding: var(--space-8);
+  max-width: 1400px;
+  width: 100%;
+}
+
+/* ---------- Public (marketing) header ---------- */
+.public-header {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-nav);
+  display: flex;
+  align-items: center;
+  height: 72px;
+  padding: var(--space-4) var(--space-6);
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border-bottom: 1px solid var(--glass-border);
+}
+.public-header .container {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+}
+.public-header .logo-mark {
+  width: 48px;
+  height: 48px;
+  flex: 0 0 48px;
+}
+.public-nav {
+  display: flex;
+  gap: var(--space-6);
+  margin-inline: auto;
+}
+.public-nav a {
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+.public-nav a:hover { color: var(--text-primary); }
+
+/* ---------- Auth layout (login/register) ---------- */
+.auth-layout {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.auth-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: var(--space-16) var(--space-16);
+}
+.auth-visual {
+  position: relative;
+  overflow: hidden;
+  background: var(--bg-elevated);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.auth-form-wrap { max-width: 400px; width: 100%; margin-inline: auto; }
+
+/* ---------- Grids ---------- */
+.grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-6); }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-6); }
+.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-6); }
+.grid-auto { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: var(--space-6); }
+
+.section {
+  padding-block: var(--space-24);
+}
+.section-header {
+  max-width: 640px;
+  margin-bottom: var(--space-10);
+}
+.section-header.center { margin-inline: auto; text-align: center; }
+
+/* ---------- Studio layout (Interview Studio 3-panel) ---------- */
+.studio-grid {
+  display: grid;
+  grid-template-columns: 320px 1fr 320px;
+  gap: var(--space-5);
+  align-items: start;
+}
+
+/* ---------- Tabs layout ---------- */
+.tab-panel { display: none; }
+.tab-panel.is-active { display: block; }

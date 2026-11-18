@@ -1,0 +1,153 @@
+/* ==========================================================
+   CareerIQ — Design Tokens
+   Deep navy dark mode / cool-white light mode.
+   Blue → Purple → Cyan is the signature "AI" gradient — used
+   sparingly as an accent, never as a full-page wash.
+   ========================================================== */
+
+:root {
+  /* ---- Brand palette (theme-independent) ---- */
+  --blue: #5B7CFA;
+  --blue-strong: #3E5FE0;
+  --purple: #9B6BFF;
+  --cyan: #34D9E8;
+  --emerald: #34D399;
+  --amber: #F5B942;
+  --rose: #F2618C;
+
+  --gradient-ai: linear-gradient(135deg, var(--blue) 0%, var(--purple) 55%, var(--cyan) 100%);
+  --gradient-ai-soft: linear-gradient(135deg, rgba(91,124,250,0.16) 0%, rgba(155,107,255,0.16) 55%, rgba(52,217,232,0.16) 100%);
+
+  /* ---- Type ---- */
+  --font-display: 'Space Grotesk', 'Inter', system-ui, sans-serif;
+  --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-md: 1.125rem;
+  --text-lg: 1.375rem;
+  --text-xl: 1.75rem;
+  --text-2xl: 2.25rem;
+  --text-3xl: 3rem;
+  --text-4xl: 3.75rem;
+
+  /* ---- Spacing scale (4px base) ---- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+  --space-24: 96px;
+
+  /* ---- Radius ---- */
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-xl: 32px;
+  --radius-full: 999px;
+
+  /* ---- Motion ---- */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-fast: 150ms;
+  --dur-base: 280ms;
+  --dur-slow: 480ms;
+
+  /* ---- Z-index scale ---- */
+  --z-nav: 100;
+  --z-sidebar: 90;
+  --z-modal: 300;
+  --z-toast: 400;
+  --z-orb: 1;
+
+  /* ---- Shadows (dark-mode friendly, tinted not grey) ---- */
+  --shadow-sm: 0 2px 8px rgba(8, 10, 20, 0.24);
+  --shadow-md: 0 8px 24px rgba(8, 10, 20, 0.32);
+  --shadow-lg: 0 20px 48px rgba(8, 10, 20, 0.40);
+  --shadow-glow: 0 0 0 1px rgba(91,124,250,0.25), 0 8px 32px rgba(91,124,250,0.20);
+}
+
+/* ============ DARK THEME (default) ============ */
+:root,
+[data-theme='dark'] {
+  --bg: #0B0E17;
+  --bg-elevated: #10131F;
+  --bg-canvas-gradient: radial-gradient(circle at 15% 0%, rgba(91,124,250,0.14), transparent 45%),
+                        radial-gradient(circle at 85% 20%, rgba(155,107,255,0.12), transparent 45%),
+                        radial-gradient(circle at 50% 100%, rgba(52,217,232,0.08), transparent 50%);
+
+  --glass-bg: rgba(255, 255, 255, 0.045);
+  --glass-bg-strong: rgba(255, 255, 255, 0.07);
+  --glass-border: rgba(255, 255, 255, 0.09);
+  --glass-blur: blur(20px);
+
+  --text-primary: #F1F3FA;
+  --text-secondary: #A6ACC2;
+  --text-tertiary: #6C7290;
+  --text-inverse: #0B0E17;
+
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.16);
+
+  --surface-input: rgba(255, 255, 255, 0.05);
+  --surface-hover: rgba(255, 255, 255, 0.06);
+}
+
+/* ============ LIGHT THEME ============ */
+[data-theme='light'] {
+  --bg: #F6F7FB;
+  --bg-elevated: #FFFFFF;
+  --bg-canvas-gradient: radial-gradient(circle at 15% 0%, rgba(91,124,250,0.10), transparent 45%),
+                        radial-gradient(circle at 85% 20%, rgba(155,107,255,0.09), transparent 45%),
+                        radial-gradient(circle at 50% 100%, rgba(52,217,232,0.07), transparent 50%);
+
+  --glass-bg: rgba(255, 255, 255, 0.65);
+  --glass-bg-strong: rgba(255, 255, 255, 0.85);
+  --glass-border: rgba(15, 23, 42, 0.08);
+  --glass-blur: blur(20px);
+
+  --text-primary: #14172A;
+  --text-secondary: #4B5170;
+  --text-tertiary: #868CA6;
+  --text-inverse: #FFFFFF;
+
+  --border-subtle: rgba(15, 23, 42, 0.08);
+  --border-strong: rgba(15, 23, 42, 0.14);
+
+  --surface-input: rgba(15, 23, 42, 0.04);
+  --surface-hover: rgba(15, 23, 42, 0.045);
+
+  --shadow-sm: 0 2px 8px rgba(20, 23, 42, 0.06);
+  --shadow-md: 0 8px 24px rgba(20, 23, 42, 0.08);
+  --shadow-lg: 0 20px 48px rgba(20, 23, 42, 0.10);
+}
+
+/* Smooth theme transitions on surfaces and controls without animating layout. */
+body,
+.card,
+.topbar,
+.sidebar,
+.bottom-nav,
+.modal,
+.modal-overlay,
+.btn,
+.btn-icon,
+.field input,
+.field select,
+.field textarea,
+.badge,
+.skill-chip,
+.progress-track,
+.segmented,
+.segmented button {
+  transition: background-color var(--dur-base) var(--ease-out),
+              border-color var(--dur-base) var(--ease-out),
+              color var(--dur-base) var(--ease-out);
+}

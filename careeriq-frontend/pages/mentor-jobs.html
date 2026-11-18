@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="../assets/icons/favicon.svg" type="image/svg+xml">
+<title>Career Mentor & Jobs — CareerIQ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles/variables.css">
+<link rel="stylesheet" href="../styles/reset.css">
+<link rel="stylesheet" href="../styles/global.css">
+<link rel="stylesheet" href="../styles/layout.css">
+<link rel="stylesheet" href="../styles/components.css">
+<link rel="stylesheet" href="../styles/animations.css">
+<link rel="stylesheet" href="../styles/themes.css">
+<link rel="stylesheet" href="../styles/responsive.css">
+<link rel="stylesheet" href="../styles/mentor-jobs.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/github-dark.min.css">
+</head>
+<body>
+<div class="app-shell" data-sidebar-collapsed="false">
+  <div data-mount="sidebar"></div>
+
+  <div class="main-col">
+    <div data-mount="topbar"></div>
+
+    <main class="page-content" id="main">
+      <div style="margin-bottom: var(--space-6);">
+        <h2>Career Mentor & Jobs</h2>
+        <p>Ask your AI mentor anything, then browse roles matched to your profile.</p>
+      </div>
+
+      <div class="tabs" role="tablist">
+        <button class="tab-btn is-active" id="tab-mentor" data-tab="mentor" role="tab" aria-controls="panel-mentor" aria-selected="true">AI Career Mentor</button>
+        <button class="tab-btn" id="tab-jobs" data-tab="jobs" role="tab" aria-controls="panel-jobs" aria-selected="false" tabindex="-1">Job Hub</button>
+      </div>
+
+      <!-- TAB 1: Mentor -->
+      <section class="tab-panel is-active" id="panel-mentor" role="tabpanel" aria-labelledby="tab-mentor" tabindex="0">
+        <div class="mentor-layout">
+          <div class="card mentor-chat-panel">
+            <div id="chat-messages" class="mentor-messages" aria-live="polite"></div>
+
+            <div id="suggested-questions" class="mentor-suggestions"></div>
+
+            <div id="mentor-context-badges" class="mentor-context-badges"></div>
+
+            <form id="chat-form" class="mentor-composer">
+              <textarea id="chat-input" class="mentor-input" rows="1" maxlength="8000" placeholder="Ask your career mentor..." aria-label="Message your AI career mentor"></textarea>
+              <div class="mentor-composer-actions">
+                <span id="mentor-char-count" class="mentor-char-count" hidden>0 / 8000</span>
+                <button id="chat-send" type="submit" class="mentor-send" aria-label="Send message" title="Send message" disabled>
+                  <i data-lucide="arrow-up" width="17" height="17"></i>
+                </button>
+              </div>
+            </form>
+            <div id="mentor-retrieved-documents" class="mentor-retrieved-documents" aria-label="Retrieved documents" hidden></div>
+          </div>
+
+          <aside class="mentor-sidebar">
+            <div class="card">
+              <div class="card-header"><h5 style="font-size:var(--text-sm);">Career documents</h5><span id="mentor-upload-status" class="text-tertiary" aria-live="polite"></span><label class="btn btn-secondary btn-sm" for="mentor-document-upload"><i data-lucide="upload" width="14" height="14"></i> Upload</label><input hidden type="file" id="mentor-document-upload" accept=".pdf,.docx,.txt,.md,.markdown"></div>
+              <ul id="mentor-documents" style="display:flex; flex-direction:column; gap: var(--space-2);"></ul>
+            </div>
+            <div class="card">
+              <div class="card-header"><h5 style="font-size:var(--text-sm);">Conversation history</h5></div>
+              <ul id="mentor-history" style="display:flex; flex-direction:column; gap: var(--space-2);"></ul>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <!-- TAB 2: Job Hub -->
+      <section class="tab-panel" id="panel-jobs" role="tabpanel" aria-labelledby="tab-jobs" tabindex="0" hidden>
+        <div class="card" style="margin-bottom: var(--space-6);">
+          <div style="display:flex; gap: var(--space-4); flex-wrap:wrap; align-items:flex-end;">
+            <div class="field" style="margin:0;">
+              <label for="job-location-filter">Location</label>
+              <select id="job-location-filter"><option value="">All locations</option></select>
+            </div>
+            <div class="field" style="margin:0;">
+              <label for="job-remote-filter">Work type</label>
+              <select id="job-remote-filter">
+                <option value="">All</option>
+                <option value="remote">Remote only</option>
+                <option value="onsite">On-site only</option>
+              </select>
+            </div>
+            <div class="field" style="margin:0; flex:1; min-width:180px;">
+              <label for="job-search-input">Search</label>
+              <input type="text" id="job-search-input" placeholder="Job title or company">
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-bottom: var(--space-6);">
+          <h5 style="margin-bottom: var(--space-3); font-size: var(--text-sm);">Trending skills</h5>
+          <div style="display:flex; flex-wrap:wrap; gap: var(--space-2);" id="trending-skills"></div>
+        </div>
+
+        <div class="state-block" style="margin-bottom: var(--space-6);">
+          <strong>Demo job listings</strong>
+          <p>These listings are seeded examples for staging and are not live vacancies. Do not submit applications from this view.</p>
+        </div>
+        <div class="grid-2" id="jobs-grid"></div>
+      </section>
+    </main>
+  </div>
+</div>
+
+<div data-mount="bottom-nav"></div>
+
+<script src="https://unpkg.com/lucide@latest"></script>
+<script src="https://cdn.jsdelivr.net/npm/marked@15.0.7/lib/marked.umd.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.6/dist/purify.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
+<script src="../runtime-config.js"></script>
+<script type="module" src="../scripts/app.js"></script>
+<script type="module" src="../scripts/navigation-init.js"></script>
+<script type="module" src="../scripts/mentor-jobs.js"></script>
+</body>
+</html>

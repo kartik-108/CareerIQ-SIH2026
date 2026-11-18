@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="../assets/icons/favicon.svg" type="image/svg+xml">
+<title>Resume Studio — CareerIQ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles/variables.css">
+<link rel="stylesheet" href="../styles/reset.css">
+<link rel="stylesheet" href="../styles/global.css">
+<link rel="stylesheet" href="../styles/layout.css">
+<link rel="stylesheet" href="../styles/components.css">
+<link rel="stylesheet" href="../styles/animations.css">
+<link rel="stylesheet" href="../styles/themes.css">
+<link rel="stylesheet" href="../styles/responsive.css">
+</head>
+<body>
+<div class="app-shell" data-sidebar-collapsed="false">
+  <div data-mount="sidebar"></div>
+
+  <div class="main-col">
+    <div data-mount="topbar"></div>
+
+    <main class="page-content" id="main">
+      <div style="margin-bottom: var(--space-8);">
+        <h2>Resume Studio</h2>
+        <p>Upload, analyze, and continuously improve your resume.</p>
+      </div>
+
+      <!-- Upload region: dropzone / processing / active states -->
+      <div class="card" id="upload-region">
+        <div id="dropzone" style="border: 2px dashed var(--border-strong); text-align:center; padding: var(--space-10); cursor:pointer;">
+          <input type="file" id="file-input" accept=".pdf,.docx,.png,.jpg,.jpeg,.webp" class="visually-hidden" aria-label="Upload resume">
+          <div class="card-icon" style="margin-inline:auto; margin-bottom: var(--space-4); width:56px;height:56px;">
+            <i data-lucide="upload-cloud" width="26" height="26"></i>
+          </div>
+          <h5 style="margin-bottom: var(--space-2);">Drag & drop your resume here</h5>
+          <p style="margin-inline:auto; margin-bottom: var(--space-4);">Supports PDF, PNG, JPG, JPEG, WEBP — or click to browse.</p>
+          <button class="btn btn-primary" id="browse-btn">Browse files</button>
+        </div>
+
+        <div id="upload-processing" class="upload-processing" hidden>
+          <div class="processing-spinner"></div>
+          <div class="processing-stage" id="processing-stage-text">Uploading resume...</div>
+          <div class="progress-track"><div class="progress-fill" id="processing-progress-fill"></div></div>
+        </div>
+
+        <div id="resume-active" class="resume-active-card" hidden>
+          <div class="resume-active-main">
+            <div class="card-icon" style="width:52px;height:52px;"><i data-lucide="file-text"></i></div>
+            <div style="flex:1; min-width:0;">
+              <div style="font-weight:600;" id="active-resume-name">—</div>
+              <div class="text-tertiary" style="font-size: var(--text-xs);" id="active-resume-meta">—</div>
+            </div>
+            <span class="badge badge-emerald">Resume Active</span>
+            <span class="badge badge-blue" id="active-resume-score">—</span>
+          </div>
+          <div class="resume-active-actions">
+            <button class="btn btn-secondary btn-sm" id="replace-resume-btn"><i data-lucide="refresh-cw" width="14" height="14"></i> Replace Resume</button>
+            <button class="btn btn-secondary btn-sm" id="reanalyze-resume-btn"><i data-lucide="sparkles" width="14" height="14"></i> Analyze Again</button>
+            <button class="btn btn-ghost btn-sm" id="remove-resume-btn"><i data-lucide="trash-2" width="14" height="14"></i> Remove Resume</button>
+          </div>
+        </div>
+      </div>
+
+        <div class="grid-2" style="margin-top: var(--space-6);">
+          <div class="card">
+            <div class="card-header"><h4>Certificate analyzer</h4></div>
+            <p>Extract credentials, skills, and career relevance from a certificate.</p>
+            <input type="file" id="certificate-input" accept=".pdf,.png,.jpg,.jpeg,.webp" class="visually-hidden" aria-label="Upload certificate">
+            <button class="btn btn-secondary" id="certificate-upload-btn"><i data-lucide="award" width="16" height="16"></i> Analyze certificate</button>
+            <div id="certificate-result" style="margin-top: var(--space-4);"></div>
+            <ul id="certificate-history" style="display:flex; flex-direction:column; gap:var(--space-2); margin-top:var(--space-4);"></ul>
+          </div>
+          <div class="card">
+            <div class="card-header"><h4>Portfolio analyzer</h4></div>
+            <p>Evaluate project quality, technical depth, and design consistency.</p>
+            <input type="file" id="portfolio-input" accept=".pdf,.png,.jpg,.jpeg,.webp" class="visually-hidden" aria-label="Upload portfolio">
+            <button class="btn btn-secondary" id="portfolio-upload-btn"><i data-lucide="briefcase-business" width="16" height="16"></i> Analyze portfolio</button>
+            <div id="portfolio-result" style="margin-top: var(--space-4);"></div>
+            <ul id="portfolio-history" style="display:flex; flex-direction:column; gap:var(--space-2); margin-top:var(--space-4);"></ul>
+          </div>
+        </div>
+
+      <div id="resume-content" style="margin-top: var(--space-6); display:none;">
+
+        <!-- Current resume + scores -->
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-header">
+              <h4>Current resume</h4>
+              <button class="btn btn-secondary btn-sm" id="download-report-btn">
+                <i data-lucide="download" width="16" height="16"></i> Download report
+              </button>
+            </div>
+            <div style="display:flex; align-items:center; gap: var(--space-4); margin-bottom: var(--space-6);">
+              <div class="card-icon" style="width:52px;height:52px;"><i data-lucide="file-text"></i></div>
+              <div>
+                <div style="font-weight:600;" id="resume-filename">—</div>
+                <div class="text-tertiary" style="font-size: var(--text-xs);" id="resume-uploaded-on">—</div>
+              </div>
+            </div>
+            <div style="display:flex; gap: var(--space-8);">
+              <div>
+                <div class="stat-value" id="grammar-score">—</div>
+                <div class="stat-label">Grammar score</div>
+              </div>
+              <div>
+                <div class="stat-value" id="overall-score">—</div>
+                <div class="stat-label">Overall score</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card" style="display:flex; flex-direction:column; align-items:center; justify-content:center;">
+            <div id="ats-ring"></div>
+            <p style="text-align:center; margin-top: var(--space-3);">ATS compatibility score: <strong id="ats-percentile" style="color:var(--text-primary)">—</strong></p>
+            <div id="ats-score-breakdown" aria-label="ATS score breakdown" style="width:100%; margin-top:var(--space-3);"></div>
+          </div>
+        </div>
+
+        <!-- Skills & keywords -->
+        <div class="grid-2" style="margin-top: var(--space-6);">
+          <div class="card">
+            <div class="card-header"><h4>Skills found</h4></div>
+            <div style="display:flex; flex-wrap:wrap; gap: var(--space-2);" id="skills-found"></div>
+            <hr class="divider">
+            <div class="card-header"><h4>Missing skills</h4></div>
+            <div style="display:flex; flex-wrap:wrap; gap: var(--space-2);" id="skills-missing"></div>
+          </div>
+          <div class="card">
+            <div class="card-header"><h4>Keyword suggestions</h4></div>
+            <div style="display:flex; flex-wrap:wrap; gap: var(--space-2); margin-bottom: var(--space-5);" id="keyword-suggestions"></div>
+            <div class="card-header"><h4>Missing keywords</h4></div>
+            <div style="display:flex; flex-wrap:wrap; gap: var(--space-2);" id="keyword-missing"></div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top: var(--space-6);" id="job-match-panel">
+          <div class="card-header">
+            <div><h4>Job description match</h4><p>Compare this resume with a target role using Ollama.</p></div>
+            <button class="btn btn-secondary btn-sm" id="download-job-match-btn" disabled><i data-lucide="download" width="15" height="15"></i> Download JSON</button>
+          </div>
+          <textarea id="job-description-input" rows="6" placeholder="Paste the target job description here..." aria-label="Target job description" style="width:100%; resize:vertical; padding:var(--space-3); background:var(--surface-input); border:1px solid var(--border-subtle); border-radius:var(--radius-md); color:var(--text-primary);"></textarea>
+          <div style="display:flex; align-items:center; gap:var(--space-3); margin-top:var(--space-3);">
+            <button class="btn btn-primary" id="analyze-job-match-btn"><i data-lucide="scan-search" width="16" height="16"></i> Analyze against job</button>
+            <span class="text-tertiary" id="job-match-status" aria-live="polite"></span>
+          </div>
+          <div id="job-match-result" style="margin-top:var(--space-5);"></div>
+        </div>
+
+        <!-- Education, Projects, Experience -->
+        <div class="grid-3" style="margin-top: var(--space-6);">
+          <div class="card">
+            <div class="card-header"><h4>Education</h4></div>
+            <div id="education-list"></div>
+          </div>
+          <div class="card">
+            <div class="card-header"><h4>Projects</h4></div>
+            <div id="projects-list"></div>
+          </div>
+          <div class="card">
+            <div class="card-header"><h4>Experience</h4></div>
+            <div id="experience-list"></div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top: var(--space-6);">
+          <div class="card-header"><h4>Achievements</h4></div>
+          <ul id="achievements-list" style="padding-left:var(--space-4); display:flex; flex-direction:column; gap:var(--space-2);"></ul>
+        </div>
+
+        <!-- AI Suggestions -->
+        <div class="card" style="margin-top: var(--space-6);">
+          <div class="card-header"><h4>AI suggestion cards</h4></div>
+          <div class="grid-2" id="suggestions-grid"></div>
+        </div>
+
+        <!-- Improvement timeline + history -->
+        <div class="grid-2" style="margin-top: var(--space-6);">
+          <div class="card">
+            <div class="card-header"><h4>Resume improvement timeline</h4></div>
+            <ul id="improvement-timeline" style="display:flex; flex-direction:column; gap: var(--space-4);"></ul>
+          </div>
+          <div class="card">
+            <div class="card-header"><h4>Resume history</h4></div>
+            <ul id="resume-history" style="display:flex; flex-direction:column; gap: var(--space-3);"></ul>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<div data-mount="bottom-nav"></div>
+
+<script src="https://unpkg.com/lucide@latest"></script>
+<script src="../runtime-config.js"></script>
+<script type="module" src="../scripts/app.js"></script>
+<script type="module" src="../scripts/navigation-init.js"></script>
+<script type="module" src="../scripts/resume-studio.js"></script>
+</body>
+</html>
