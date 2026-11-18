@@ -1,18 +1,36 @@
 import pino from 'pino';
 import { randomUUID } from 'node:crypto';
+import { createRequire } from 'node:module';
 import { env } from './env.js';
 
-const isProd = env.NODE_ENV === 'production';
+const isDevelopment = env.NODE_ENV === 'development';
 
-export const logger = pino({
+function canUsePrettyLogger() {
+  if (!isDevelopment) return false;
+
+  try {
+    createRequire(import.meta.url).resolve('pino-pretty');
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+const loggerOptions = {
   level: env.LOG_LEVEL || 'info',
-  transport: isProd
-    ? undefined
-    : {
-        target: 'pino-pretty',
-        options: { colorize: true, translateTime: 'HH:MM:ss', ignore: 'pid,hostname' },
-      },
-});
+};
+
+export const logger = pino(
+  canUsePrettyLogger()
+    ? {
+        ...loggerOptions,
+        transport: {
+          target: 'pino-pretty',
+          options: { colorize: true, translateTime: 'HH:MM:ss', ignore: 'pid,hostname' },
+        },
+      }
+    : loggerOptions,
+);
 
 // Used by pino-http middleware to tag every request/response log line.
 export function genReqId(req) {
