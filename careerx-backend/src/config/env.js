@@ -1,6 +1,19 @@
 import "dotenv/config";
 import { z } from "zod";
 
+const envBoolean = z.preprocess(
+  (value) => {
+    if (typeof value === "boolean") return value;
+    if (typeof value === "string") {
+      const normalized = value.trim().toLowerCase();
+      if (normalized === "true" || normalized === "1") return true;
+      if (normalized === "false" || normalized === "0") return false;
+    }
+    return value;
+  },
+  z.boolean(),
+);
+
 const envSchema = z.object({
   // =====================================
   // Server
@@ -41,7 +54,7 @@ const envSchema = z.object({
   OLLAMA_TEMPERATURE: z.coerce.number().min(0).max(2).default(0.2),
   AI_TIMEOUT_MS: z.coerce.number().positive().default(120000),
   SSE_HEARTBEAT_MS: z.coerce.number().default(12000),
-  DEV_RAG_INSPECTOR: z.coerce.boolean().default(false),
+  DEV_RAG_INSPECTOR: envBoolean.default(false),
   GEMINI_API_KEY: z.string().optional(),
   GEMINI_MODEL: z.string().default("gemini-2.5-flash"),
 
@@ -79,7 +92,7 @@ const envSchema = z.object({
 
   RAG_USER_ID: z.string().optional(),
   DEV_USER_ID: z.string().optional(),
-  ALLOW_DEV_AUTH_BYPASS: z.coerce.boolean().default(false),
+  ALLOW_DEV_AUTH_BYPASS: envBoolean.default(false),
 
   // =====================================
   LOG_LEVEL: z.string().default("info"),
