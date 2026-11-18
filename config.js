@@ -5,7 +5,9 @@ const environment = globalThis.process?.env || {};
 export const API_BASE_URL = (
   runtime.API_BASE_URL
   || environment.CAREERIQ_API_URL
-  || '/api'
+  || (['localhost', '127.0.0.1'].includes(globalThis.location?.hostname)
+    ? 'http://localhost:5000/api'
+    : 'https://careeriq-sih2026.onrender.com/api')
 ).replace(/\/$/, '');
 
 export const SUPABASE_URL = runtime.SUPABASE_URL

@@ -1,5 +1,6 @@
 import { API_BASE_URL } from '../../config.js';
 import { getItem, setItem, removeItem } from '../storage.js';
+import { buildApiUrl } from './url.js';
 
 export class ApiClientError extends Error {
   constructor(message, status = 0, details = null) {
@@ -29,7 +30,7 @@ async function request(path, options = {}) {
   if (token) headers.set('Authorization', `Bearer ${token}`);
 
   try {
-    const response = await fetch(`${API_BASE_URL}${path}`, {
+    const response = await fetch(buildApiUrl(API_BASE_URL, path), {
       ...options,
       headers,
       credentials: 'include',
@@ -38,7 +39,7 @@ async function request(path, options = {}) {
 
     if (response.status === 401 && getItem('refresh_token')) {
       try {
-        const refreshed = await fetch(`${API_BASE_URL}/auth/refresh`, {
+        const refreshed = await fetch(buildApiUrl(API_BASE_URL, '/auth/refresh'), {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           credentials: 'include',
@@ -48,7 +49,7 @@ async function request(path, options = {}) {
         setItem('auth_token', refreshPayload.access_token);
         if (refreshPayload.refresh_token) setItem('refresh_token', refreshPayload.refresh_token);
         headers.set('Authorization', `Bearer ${refreshPayload.access_token}`);
-        return parseResponse(await fetch(`${API_BASE_URL}${path}`, { ...options, headers, credentials: 'include', signal: controller.signal }));
+        return parseResponse(await fetch(buildApiUrl(API_BASE_URL, path), { ...options, headers, credentials: 'include', signal: controller.signal }));
       } catch {
         removeItem('auth_token');
         removeItem('refresh_token');
