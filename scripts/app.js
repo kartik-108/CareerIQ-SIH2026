@@ -4,6 +4,7 @@
 import { initTheme } from './theme.js';
 import { initAllAnimations } from './animations.js';
 import { isAuthenticated, clearSession } from './storage.js';
+import { getSession, subscribeToAuthChanges } from './api/auth.js';
 
 const PROTECTED_PAGES = [
   'dashboard.html',
@@ -14,14 +15,24 @@ const PROTECTED_PAGES = [
   'profile-settings.html',
 ];
 
-function guardRoute() {
+async function guardRoute() {
   const page = location.pathname.split('/').pop();
-  if (PROTECTED_PAGES.includes(page) && !isAuthenticated()) {
-    location.href = 'login.html';
-    return false;
+  if (PROTECTED_PAGES.includes(page)) {
+    const session = await getSession();
+    if (!session && !isAuthenticated()) {
+      location.href = 'login.html';
+      return false;
+    }
   }
   return true;
 }
+
+subscribeToAuthChanges((event, session) => {
+  if (event === 'SIGNED_OUT' && PROTECTED_PAGES.includes(location.pathname.split('/').pop())) {
+    clearSession();
+    location.href = 'login.html';
+  }
+});
 
 window.addEventListener('auth:expired', () => {
   clearSession();
@@ -41,7 +52,7 @@ function showRuntimeError() {
 }
 
 async function bootstrap() {
-  if (!guardRoute()) return;
+  if (!(await guardRoute())) return;
   initTheme();
   initAllAnimations();
   if (window.lucide) window.lucide.createIcons();

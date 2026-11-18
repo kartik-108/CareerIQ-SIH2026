@@ -2,6 +2,7 @@
 import { api, ApiClientError } from './api/client.js';
 import { saveSession } from './storage.js';
 import { toast } from './toast.js';
+import { signInWithGoogle, getSession } from './api/auth.js';
 
 function showView(view) {
   document.getElementById('login-view').style.display = view === 'login' ? 'block' : 'none';
@@ -96,8 +97,12 @@ function initForms() {
     }
   });
 
-  document.getElementById('google-login-btn')?.addEventListener('click', () => {
-    toast.info('Google sign-in is not configured for this account yet.');
+  document.getElementById('google-login-btn')?.addEventListener('click', async () => {
+    try {
+      await signInWithGoogle();
+    } catch (error) {
+      toast.error(error?.message || 'Unable to start Google sign-in. Please try again.');
+    }
   });
 }
 
@@ -106,4 +111,9 @@ document.addEventListener('DOMContentLoaded', () => {
   initPasswordToggle();
   initForgotModal();
   initForms();
+  getSession()
+    .then((session) => {
+      if (session) location.href = 'dashboard.html';
+    })
+    .catch((error) => console.error('Unable to restore the CareerIQ session:', error));
 });
